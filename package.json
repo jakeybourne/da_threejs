@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "three.interaction": "^0.2.3",
+    "threex.domevents": "^1.0.1"
+  },
+  "devDependencies": {
+    "polymer-cli": "^1.9.11"
+  }
+}

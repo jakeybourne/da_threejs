@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+
+  <link rel="icon" href="https://discoverthreejs.com/favicon.ico" type="image/x-icon">
+
+  <link href="./styles/main.css" rel="stylesheet" type="text/css">
+
+  <script type="module" src="./src/main.js"></script>
+
+
+  <style>
+      canvas {
+    width: 100%;
+    height: 100px;
+    display: block;
+    }
+
+.annotation {
+    text-align: left;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    padding: 1em;
+    width: 29vw;
+    height: 50vh;
+    color: #fff;
+    background: rgba(11, 65, 64);
+    border-radius: .5em;
+    font-size: 12px;
+    line-height: 1.2;
+    opacity: .8;
+    transition: .5s;
+}
+.div-organge-line {
+  width: 100px;
+  height: 3px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #ef5323;
+  color: transparent;
+}
+.close::before {
+    content: 'x';
+    position: absolute;
+    cursor: pointer;
+    bottom: 51vh;
+    left: 29.5vw;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #fff;
+    border-radius: 60%;
+    font-size: 18px;
+    line-height: 28px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+#number {
+    position: absolute;
+    z-index: -1;
+}
+.none{
+  display: none;
+}
+.video{
+  width: 120;
+  height: 240;
+}
+  </style>
+
+
+
+</head>
+
+<body>
+  <h1></h1>
+
+  <div class="annotation" id="annotation" style="display: none;">
+    <div class="close" id="close" onclick="document.getElementById('annotation').style.display='none'"></div>
+    <!-- DECK -->
+    <div id="deck" style="display: none;">
+      <video src="/video/FLIGHT DECK.mp4" class="video" width="100%" height="240" autoplay muted loop></video>
+      <div class="div-organge-line"></div>
+      <p><strong>Flight deck</strong></p>
+      <p id="annotation">The D328eco™ Flight Deck is designed for future single pilot operation, with latest generation 
+        avionics suite. This will enable greater operational efficiency and ensuring full compliance with all known 
+        future CNS/ATM regulations.</p>
+    </div>
+
+    <!-- CABIN -->
+    <div id="cabin" style="display: none;">
+      <video src="/video/CABIN.mp4" width="100%" height="240" autoplay muted loop></video>
+      <div class="div-organge-line"></div>
+      <p><strong>Cabin</strong></p>
+      <p id="annotation">The D328eco™ is nearly 2 meters longer than the original D328® airframe to provide additional 
+        seating capacity and enhance the proven multi-role capability of the aircraft. Seating 40 passengers as a 
+        standard configuration. The new cabin design will offer increased health and safety capabilities while allowing 
+        standard trolleys on-board.</p>
+    </div>
+
+    <!-- LANDING GEAR -->
+    <div id="land" style="display: none;">
+      <video src="/video/LANDING GEAR.mp4" width="100%" height="240" autoplay muted loop></video>
+      <div class="div-organge-line"></div>
+      <p><strong>Landing Gear</strong></p>
+      <p id="annotation">The D328eco™ builds on the D328® superior field performance. The improved landing gear 
+        coupled with a gravel kit allows access to unmade runways and austere environments.</p>
+    </div>
+
+    <!-- PROP  -->
+    <div id="prop" style="display: none;">
+      <video src="/video/PROPELLER.mp4" width="100%" height="240" autoplay muted loop></video>
+      <div class="div-organge-line"></div>
+      <p><strong>Propellers</strong></p>
+      <p id="annotation">Optimized for higher propulsive efficiency and low noise, they will work together 
+        with the engine to ensure the D328eco™ remains one of the most economical turboprops within the regional 
+        and special mission markets.</p>
+    </div>
+
+    <!-- ENGINE -->
+    <div id="engine" style="display: none;">
+      <video src="/video/ENGINE.mp4" width="100%" height="240" autoplay muted loop></video>
+      <div class="div-organge-line"></div>
+      <p><strong>Engine</strong></p>
+      <p id="annotation">The Pratt and Whitney Canada PW127S engine, more efficient and will allow better 
+        performance increased SHP to support the increased MTOW. The maintenance service goal will improve 
+        while the operating cost is reduced.</p>
+    </div>
+
+    <!-- SAF -->
+    <div id="saf" style="display: none;">
+      <video src="/video/SAF.mp4" width="100%" height="240" autoplay muted loop></video>
+      <div class="div-organge-line"></div>
+      <p><strong>SAF</strong></p>
+      <p id="annotation">Sustainable Aviation Fuel (SAF) compatible airframe to lower the carbon emission and 
+        help reduce our carbon footprint.</p>
+    </div>
+
+    <!-- AIR FRAME -->
+    <div id="frame" style="display: none;">
+      <video src="/video/AIRFRAME.mp4" width="100%" height="240" autoplay muted loop></video>
+      <div class="div-organge-line"></div>
+      <p><strong>AiRframe</strong></p>
+      <p id="annotation">Fully compliant with REACH manufacturing processes and regulations (Registration, Evaluation,
+         Authorisation & restriction of CHemicals), to meet more sustainable objectives.</p>
+    </div>
+    
+  </div>
+<canvas id="number" width="64" height="64"></canvas>
+
+
+  <div id="scene-container">
+   
+  </div>
+
+  <script>
+  </script>
+
+  
+</body>
+
+</html>
