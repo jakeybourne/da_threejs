@@ -4,6 +4,7 @@
     "threex.domevents": "^1.0.1"
   },
   "devDependencies": {
-    "polymer-cli": "^1.9.11"
+    "polymer-cli": "^1.9.11",
+    "vite-plugin-string": "^1.1.2"
   }
 }

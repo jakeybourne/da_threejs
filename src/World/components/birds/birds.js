@@ -5,6 +5,11 @@ import { MeshStandardMaterial, MeshPhongMaterial,MeshPhysicalMaterial, Group,Vec
 import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js';
 import { AnimationClip, AnimationMixer, Clock } from '../../../../vendor/three/build/three.module.js';
 
+import { vertextShader } from './../../shaders/vertex.JS';
+import { fragmentShader } from './../../shaders/fragment.JS';
+function rgb(r, g, b) {
+    return new THREE.Vector3(r, g, b);
+}
 
 async function loadBirds() {
     
@@ -219,18 +224,19 @@ let objects = [];
 
     // body
     const coinLightmaterial = new MeshStandardMaterial({
-        color: 0xa13818,
+        color: 0xef5323,
         opacity: 1.5,
         transparent: false,
     });
 
-    const coin = setupModel(coinData);
+    // const coin = setupModel(coinData);
+    const coin = new THREE.Mesh( new THREE.SphereGeometry(5, 32, 16), new THREE.MeshBasicMaterial({color: 0xef5323 } ));
     coin.name = 'coin';
     coin.material = coinLightmaterial;
-    coin.position.set(-1, 0.1, 8.7);
+    coin.position.set(0.6, 0.37, -11.8);
     coin.rotation.z = 80;
     coin.rotation.y = 45;
-    coin.scale.set(0.3, 0.03, 0.3);
+    coin.scale.set(0.06, 0.06, 0.06);
     // console.log(addObjectClickListener);
 
     const engineplusLightmaterial = new MeshStandardMaterial({
@@ -248,19 +254,22 @@ let objects = [];
 
     // engine
     const engineLightmaterial = new MeshStandardMaterial({
-        color: 0xa13818,
+        color: 0xef5323,
         opacity: 1.5,
-        transparent: false,
+        transparent: true,
     });
 
-    const engine = setupModel(engineData);
+    const geometry = new THREE.SphereGeometry(5, 32, 16);
+    const material = new THREE.MeshBasicMaterial({color: 0xef5323 });
+    const engine = new THREE.Mesh( geometry, material );
     engine.name = 'engine';
     engine.material = engineLightmaterial;
     // engine.position.set(-1.8, .1, 4.35);
-    engine.position.set(-1.3, -0.5, 5.2);
+    engine.position.set(-1.951, 0, 4.958);
+    // engine.position.set(-1.3, -0.4, 5.2);
     engine.rotation.x = 80;
     engine.rotation.z = -45;
-    engine.scale.set(0.3, 0.03, 0.3);
+    engine.scale.set(0.06, 0.06, 0.06);
 
     // deck
 
@@ -278,19 +287,20 @@ let objects = [];
     deckplus.scale.set(0.12, -0.04, 0.005);
 
     const deckLightmaterial = new MeshStandardMaterial({
-        color: 0xa13818,
+        color: 0xef5323,
         opacity: 1.5,
         transparent: false,
     });
 
-    const deck = setupModel(deckData);
+    // const deck = setupModel(deckData);
+    const deck = new THREE.Mesh( new THREE.SphereGeometry(5, 32, 16), new THREE.MeshBasicMaterial({color: 0xef5323 } ));
     deck.name = 'deck';
     deck.material = deckLightmaterial;
-    deck.position.set(-8.8, -0.7, 1.2);
+    deck.position.set(-9.8, 0, -0.07);
     deck.rotation.x = Math.PI / 3;
     deck.rotation.y = Math.PI / 8;
     deck.rotation.z = Math.PI / 6;
-    deck.scale.set(0.2, 0.02, 0.2);
+    deck.scale.set(0.06, 0.06, 0.06);
 
     // cabin
 
@@ -308,17 +318,18 @@ let objects = [];
     cabinplus.scale.set(0.19, -0.04, 0.02);
 
     const cabinLightmaterial = new MeshStandardMaterial({
-        color: 0xa13818,
+        color: 0xef5323,
         opacity: 1.5,
         transparent: false,
     });
 
-    const cabin = setupModel(cabinData);
+    // const cabin = setupModel(cabinData);
+    const cabin = new THREE.Mesh( new THREE.SphereGeometry(5, 32, 16), new THREE.MeshBasicMaterial({color: 0xef5323 } ));
     cabin.name = 'cabin';
     cabin.material = cabinLightmaterial;
-    cabin.position.set(-7.1, -0.9, 2.2);
+    cabin.position.set(7, -0.9, 2.2);
     cabin.rotation.x = Math.PI / 2;
-    cabin.scale.set(0.3, 0.03, 0.3);
+    cabin.scale.set(0.06, 0.06, 0.06);
 
 
     // landing gear
@@ -337,18 +348,19 @@ let objects = [];
     landplus.scale.set(0.24, -0.04, 0.06);
 
     const landLightmaterial = new MeshStandardMaterial({
-        color: 0xa13818,
+        color: 0xef5323,
         opacity: 1.5,
         transparent: false,
     });
 
-    const land = setupModel(landData);
+    // const land = setupModel(landData);
+    const land = new THREE.Mesh( new THREE.SphereGeometry(5, 32, 16), new THREE.MeshBasicMaterial({color: 0xef5323 } ));
     land.name = 'land';
     land.material = landLightmaterial;
-    land.position.set(-2.8, -2.65, 1.2);
+    land.position.set(0.5, -2.15, 2.1);
     land.rotation.y = 45;
     land.rotation.z = 80;
-    land.scale.set(0.4, 0.04, 0.4);
+    land.scale.set(0.06, 0.06, 0.06);
 
     // console.log(land.parent);
     // domEvents.addEventListener(land, 'click', function(event) {
@@ -371,18 +383,20 @@ let objects = [];
 
     // SAF
     const safLightmaterial = new MeshStandardMaterial({
-        color: 0xa13818,
+        color: 0xef5323,
         opacity: 1.5,
         transparent: false,
     });
 
-    const saf = setupModel(safData);
+    // const saf = setupModel(safData);
+    const saf = new THREE.Mesh( new THREE.SphereGeometry(5, 32, 16), new THREE.MeshBasicMaterial({color: 0xef5323 } ));
     saf.name = 'saf';
     saf.material = safLightmaterial;
-    saf.position.set(-1, 0.1, 6.2);
+    saf.position.set(7.1, -0.9, -2.2);
+    // saf.position.set(5, 1.25, 0);
     saf.rotation.z = 80;
     saf.rotation.y = 45;
-    saf.scale.set(0.3, 0.03, 0.3);
+    saf.scale.set(0.06, 0.06, 0.06);
 
 
     const propplusLightmaterial = new MeshStandardMaterial({
@@ -400,19 +414,20 @@ let objects = [];
 
     // propeller
     const propLightmaterial = new MeshStandardMaterial({
-        color: 0xa13818,
+        color: 0xef5323,
         opacity: 1.5,
         transparent: false,
     });
 
-    const prop = setupModel(propData);
+    // const prop = setupModel(propData);
+    const prop = new THREE.Mesh( new THREE.SphereGeometry(5, 32, 16), new THREE.MeshBasicMaterial({color: 0xef5323 } ));
     prop.name = 'prop';
     prop.material = propLightmaterial;
-    prop.position.set(-3.951, 0, 4.958);
+    prop.position.set(-1.951, 0, -4.958);
     // prop.position.set(-0.8, .05, 4.30);
     prop.rotation.z = 80;
     prop.rotation.y = 45;
-    prop.scale.set(0.3, 0.03, 0.3);
+    prop.scale.set(0.06, 0.06, 0.06);
 
 
     var flashcounter = 0;

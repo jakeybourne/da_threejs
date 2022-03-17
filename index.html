@@ -15,69 +15,67 @@
 
 
   <style>
-      canvas {
-    width: 100%;
-    height: 100px;
-    display: block;
+    canvas {
+      width: 100%;
+      height: 100px;
+      display: block;
     }
 
-.annotation {
-    text-align: left;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    margin-left: 15px;
-    margin-bottom: 15px;
-    padding: 1em;
-    width: 29vw;
-    height: 50vh;
-    color: #fff;
-    background: rgba(11, 65, 64);
-    border-radius: .5em;
-    font-size: 12px;
-    line-height: 1.2;
-    opacity: .8;
-    transition: .5s;
-}
-.div-organge-line {
-  width: 100px;
-  height: 3px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  background-color: #ef5323;
-  color: transparent;
-}
-.close::before {
-    content: 'x';
-    position: absolute;
-    cursor: pointer;
-    bottom: 51vh;
-    left: 29.5vw;
-    width: 30px;
-    height: 30px;
-    border: 2px solid #fff;
-    border-radius: 60%;
-    font-size: 18px;
-    line-height: 28px;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.8);
-}
+    .annotation {
+      text-align: left;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      margin-left: 15px;
+      margin-bottom: 15px;
+      padding: 1em;
+      width: 29vw;
+      height: 50vh;
+      color: #fff;
+      background: rgba(11, 65, 64);
+      border-radius: .5em;
+      font-size: 12px;
+      line-height: 1.2;
+      opacity: .8;
+      transition: .5s;
+    }
+    .div-organge-line {
+      width: 100px;
+      height: 3px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      background-color: #ef5323;
+      color: transparent;
+    }
+    .close::before {
+      content: 'x';
+      position: absolute;
+      cursor: pointer;
+      bottom: 51vh;
+      left: 29.5vw;
+      width: 30px;
+      height: 30px;
+      border: 2px solid #fff;
+      border-radius: 60%;
+      font-size: 18px;
+      line-height: 28px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.8);
+    }
 
-#number {
-    position: absolute;
-    z-index: -1;
-}
-.none{
-  display: none;
-}
-.video{
-  width: 120;
-  height: 240;
-}
+    #number {
+      position: absolute;
+      z-index: -1;
+    }
+    .none{
+      display: none;
+    }
+    .video{
+      width: 120;
+      height: 240;
+    }
   </style>
-
-
 
 </head>
 
@@ -155,7 +153,7 @@
     </div>
     
   </div>
-<canvas id="number" width="64" height="64"></canvas>
+  <canvas id="number" width="64" height="64"></canvas>
 
 
   <div id="scene-container">
@@ -167,5 +165,56 @@
 
   
 </body>
+<script id="vertex-shader" type="x-shader/x-vertex">
+  varying vec2 vUv;
 
+  uniform sampler2D getTexture1;
+
+  void main() {
+      vUv = uv;
+      vec4 bumpData = texture2D( getTexture1, uv );
+      float displacement = 20.0 * bumpData.r * bumpData.a;
+
+      vec3 newPosition = position + normal * displacement;
+
+      gl_Position =  projectionMatrix * modelViewMatrix * vec4(newPosition,1.0);
+  }
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+  vec3 rgb(float r, float g, float b) {
+      return vec3(r / 255., g / 255., b / 255.);
+  }
+
+  vec3 rgb(float c) {
+      return vec3(c / 255., c / 255., c / 255.);
+  }
+
+  varying vec2 vUv;
+
+  uniform sampler2D getTexture1;
+  uniform vec3 u_color1;
+  uniform vec3 u_color2;
+  uniform vec3 u_time;
+
+  void main(void) {
+
+      vec3 c1 = rgb(u_color1.r, u_color1.g, u_color1.b);
+      vec3 c2 = rgb(u_color2.r, u_color2.g, u_color2.b);
+
+      vec4 bumpData = texture2D(getTexture1, vUv);
+      if(bumpData.a < 0.05) {
+          gl_FragColor = vec4(c2, 0.5);
+      } else {
+          gl_FragColor = ( (bumpData.a)  * (1. - bumpData.r) ) * vec4(c1, 1.) * 0.65;
+      }
+  }
+</script> 
+<script id="atmosphere-shader" type="x-shader/x-fragment">
+  varying vec3 vertexNormal;
+  void main() {
+    float intensity = pow(0.6 - dot(vertexNormal, vec3(0,0,1.0)), 2.0);
+    gl_FragColor = vec4(0.3, 0.6, 1.0, 1.0) * intensity
+  }
+</script>
 </html>
